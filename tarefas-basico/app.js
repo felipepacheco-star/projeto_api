@@ -4,16 +4,16 @@ const mysql = require('mysql2/promise');
 const app = express();
 app.use(express.json());
 
-// Conexão com o banco (altere usuário e senha se necessário)
+// Conexão com o banco 
 const db = mysql.createPool({
   host: 'localhost',
   user: 'root',
-  password: 'root',
+  password: '126778',
   database: 'tarefas_db',
   dateStrings: true,
 });
 
-// Converte uma linha do banco para o formato devolvido pela API
+
 function formatar(linha) {
   return {
     id: linha.id,
@@ -47,7 +47,7 @@ app.post('/tarefas', async (req, res) => {
   res.status(201).json({ id: resultado.insertId, ...req.body });
 });
 
-// Listar por período: GET /tarefas?inicio=2026-10-01&fim=2026-10-31
+// Listar por período: 
 app.get('/tarefas', async (req, res) => {
   const { inicio, fim } = req.query;
   if (!inicio || !fim) {
@@ -94,7 +94,7 @@ app.delete('/tarefas/:id', async (req, res) => {
 });
 
 // Erros inesperados (ex.: banco fora do ar)
-app.use((erro, req, res, next) => {
+app.use((req, res) => {
   console.error(erro);
   res.status(500).json({ erro: 'Erro interno do servidor' });
 });
